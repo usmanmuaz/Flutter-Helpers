@@ -1,0 +1,24 @@
+// Flutter - Usman Muaz
+Future<void> featureFunctionName () async {
+    // Helpers
+    var url = Uri.parse("");
+    var headers = {"name":"name"};
+    var body = jsonEncode({
+      "key": "value"
+    });
+
+    // Request & Response
+    var getResponse = await http.get(url, headers: headers);
+    var postResponse = await http.post(url, headers: headers, body: body);
+    var putResponse = await http.put(url, headers: headers, body: body);
+    var deleteResponse = await http.delete(url, headers: headers, body: body);
+
+    var data = jsonDecode(response.body); // replace this with response you are calling!
+
+    // Handle Response Checks
+    if (response.statusCode == 200) {
+      
+    } else {
+      // Manage Other Exeptions / statusCodes / Errors!
+    }
+  }
