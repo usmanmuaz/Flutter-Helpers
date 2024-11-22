@@ -1,0 +1,18 @@
+// Usman Muaz
+// Permissions for Android & iOS For Location
+// Library - google_maps / geo_locator
+
+// ANDROID
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
+// IOS
+<key>NSLocationAlwaysUsageDescription</key>
+<string>This app requires location access at all times to support continuous tracking features.</string>
+<key>NSLocationWhenInUseUsageDescription</key>
+<string>We need your location to show nearby routes.</string>
+<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+<string>We need your location for better navigation experiences.</string>
+
+
+
