@@ -1,0 +1,71 @@
+// Usman Muaz
+// Local Storage Class
+// import 'package:shared_preferences/shared_preferences.dart'; // add shared_preferences dependency
+
+abstract class LocalStorage {
+  Future<String?> getString(String key);
+  Future<bool?> getBool(String key);
+  Future<int?> getInt(String key);
+  Future<double?> getDouble(String key);
+  Future<bool> setString(String key, String value);
+  Future<bool> setBool(String key, bool value);
+  Future<bool> setInt(String key, int value);
+  Future<bool> setDouble(String key, double value);
+  Future<bool> removeKey(String key);
+}
+
+class CoreLocalStorage implements LocalStorage {
+  @override
+  Future<String?> getString(String key) async {
+    var prefs = await SharedPreferences.getInstance();
+    return prefs.getString(key);
+  }
+
+  @override
+  Future<bool?> getBool(String key) async {
+    var prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(key);
+  }
+
+  @override
+  Future<int?> getInt(String key) async {
+    var prefs = await SharedPreferences.getInstance();
+    return prefs.getInt(key);
+  }
+
+  @override
+  Future<double?> getDouble(String key) async {
+    var prefs = await SharedPreferences.getInstance();
+    return prefs.getDouble(key);
+  }
+
+  @override
+  Future<bool> setString(String key, String value) async {
+    var prefs = await SharedPreferences.getInstance();
+    return prefs.setString(key, value);
+  }
+
+  @override
+  Future<bool> setBool(String key, bool value) async {
+    var prefs = await SharedPreferences.getInstance();
+    return prefs.setBool(key, value);
+  }
+
+  @override
+  Future<bool> setInt(String key, int value) async {
+    var prefs = await SharedPreferences.getInstance();
+    return prefs.setInt(key, value);
+  }
+
+  @override
+  Future<bool> setDouble(String key, double value) async {
+    var prefs = await SharedPreferences.getInstance();
+    return prefs.setDouble(key, value);
+  }
+
+  @override
+  Future<bool> removeKey(String key) async {
+    var prefs = await SharedPreferences.getInstance();
+    return prefs.remove(key);
+  }
+}
