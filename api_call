@@ -1,5 +1,13 @@
-// Flutter - Usman Muaz
-Future<void> featureFunctionName () async {
+// Flutter API Call - Usman Muaz
+
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
+import 'package:next_sprint_app/Services/Unsplash%20Services/unsplash_services.dart';
+
+class ClassName {
+  // Create Board
+  Future<void> featureFunctionName () async {
     // Helpers
     var url = Uri.parse("");
     var headers = {"name":"name"};
@@ -13,12 +21,14 @@ Future<void> featureFunctionName () async {
     var putResponse = await http.put(url, headers: headers, body: body);
     var deleteResponse = await http.delete(url, headers: headers, body: body);
 
-    var data = jsonDecode(response.body); // replace this with response you are calling!
+    var data = jsonDecode(getResponse.body); // replace this with response you are calling!
 
     // Handle Response Checks
-    if (response.statusCode == 200) {
+    if (getResponse.statusCode == 200) {
       
     } else {
       // Manage Other Exeptions / statusCodes / Errors!
     }
   }
+}
+
