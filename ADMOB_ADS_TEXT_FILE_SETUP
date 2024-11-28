@@ -1,0 +1,24 @@
+// Google AdMob ads.txt File Setup
+// Usman Muaz
+
+// ============== First Setup to Do ====================
+
+Open AdMob Console
+Go to Apps > show All Apps 
+Click on Set-up ads.txt file ( on the right corner )
+AdMob will generate the content of your ads.txt file.
+It typically looks like this: google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, XXXXXXXXXXXXX
+
+Now create ads.txt file in your computer & Paste that content in that ads.txt file.
+
+
+// ============== Second Setup to Do ====================
+
+Go to your Hosting domain
+Go to File Manager there
+Inside the File Manager, go to the public_html directory. This is the root directory of your website.
+In the File Manager, click on the Upload button.
+Select the ads.txt file from your computer.
+After uploading, open your web browser.
+Visit https://xyz.com/ads.txt (or the respective domain).
+Ensure the content of the file is visible and correct.
