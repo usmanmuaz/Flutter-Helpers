@@ -1,0 +1,9 @@
+// Flutter failed to write to a file at “~/
+// 2/build/ios/Release-iphoneos/.last_build_id”.
+
+// Usman Muaz
+
+1- Open XCode
+2- Click on Runner to Expand
+3- Open Build Settings
+4- Search User Script Sandboxing =  ENABLE_USER_SCRIPT_SANDBOXING = No 
