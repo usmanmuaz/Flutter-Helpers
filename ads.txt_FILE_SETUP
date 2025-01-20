@@ -1,0 +1,57 @@
+// ==================== Google AdMob ads.txt File Setup ====================
+// Author: Usman Muaz
+
+// ==================== Step 1: Generate the ads.txt File ====================
+
+// 1. Open AdMob Console
+//    - Navigate to: https://apps.admob.com/
+//    - Go to Apps > Show All Apps.
+
+// 2. Access Ads.txt Configuration
+//    - Locate the "Set-up ads.txt file" option (top-right corner of your app's dashboard).
+//    - Click on it, and AdMob will generate the required content for your ads.txt file.
+
+// 3. Copy the Generated Content
+//    - Example content:
+//      google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, XXXXXXXXXXXXX
+//    - Replace placeholders with your publisher details.
+
+// 4. Create the ads.txt File
+//    - Open a text editor (e.g., Notepad, VS Code).
+//    - Paste the copied content into a new file.
+//    - Save the file as `ads.txt` on your computer.
+
+// ==================== Step 2: Upload the ads.txt File to Your Website ====================
+
+// 1. Log in to Your Hosting Panel
+//    - Use your web hosting credentials to log in (e.g., cPanel, Plesk).
+
+// 2. Locate the Root Directory
+//    - Navigate to the File Manager section.
+//    - Open the `public_html` folder (root directory of your website).
+
+// 3. Upload the ads.txt File
+//    - Click the "Upload" button.
+//    - Select the `ads.txt` file you created earlier from your computer.
+//    - Confirm the upload to ensure the file is added to the `public_html` directory.
+
+// 4. Verify the Ads.txt File
+//    - Open your browser and visit: https://yourdomain.com/ads.txt
+//    - Ensure the file content is visible and matches the AdMob-generated content.
+
+// ==================== Step 3: Validate and Confirm ====================
+
+// 1. Go Back to AdMob Console
+//    - Verify the status of the ads.txt setup for your app (may take up to 24 hours).
+
+// 2. Monitor for Errors
+//    - Check the AdMob dashboard regularly for warnings or errors.
+//    - Ensure there are no typos or incorrect publisher details in the ads.txt file.
+
+// ==================== Best Practices ====================
+
+// - Keep It Updated:
+//   Always update the ads.txt file if AdMob or other ad networks require changes.
+
+// - Check for Conflicts:
+//   Consolidate entries into a single file if using multiple ad networks to avoid overwriting.
