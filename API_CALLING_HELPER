@@ -1,0 +1,72 @@
+// Flutter - Helpers
+// API's Calling Function
+// Usman Muaz - Flutter Developer 
+
+import 'dart:convert';
+import 'dart:io';
+import 'package:http/http.dart' as http;
+
+class ApiHelper {
+  final String baseUrl;
+
+  ApiHelper({required this.baseUrl});
+
+  // Generalized HTTP request function
+  Future<dynamic> request({
+    required String endpoint,
+    required String method,
+    Map<String, String>? headers,
+    Map<String, dynamic>? body,
+    Map<String, String>? queryParams,
+  }) async {
+    final uri = Uri.parse('$baseUrl$endpoint').replace(queryParameters: queryParams);
+    headers ??= {'Content-Type': 'application/json'};
+    try {
+      http.Response response;
+
+      // Choose the method dynamically
+      switch (method.toUpperCase()) {
+        case 'GET':
+          response = await http.get(uri, headers: headers);
+          break;
+        case 'POST':
+          response = await http.post(uri, headers: headers, body: jsonEncode(body));
+          break;
+        case 'PUT':
+          response = await http.put(uri, headers: headers, body: jsonEncode(body));
+          break;
+        case 'DELETE':
+          response = await http.delete(uri, headers: headers, body: jsonEncode(body));
+          break;
+        default:
+          throw UnsupportedError('HTTP method not supported: $method');
+      }
+
+      return _handleResponse(response); // Handle response status and parse data
+    } on SocketException {
+      throw Exception('No Internet connection');
+    } on HttpException {
+      throw Exception('Server error occurred');
+    } on FormatException {
+      throw Exception('Bad response format');
+    } catch (e) {
+      throw Exception('Unexpected error: $e');
+    }
+  }
+
+  // Response handling
+  dynamic _handleResponse(http.Response response) {
+    final int statusCode = response.statusCode;
+    final dynamic decodedBody = response.body.isNotEmpty ? jsonDecode(response.body) : null;
+
+    if (statusCode >= 200 && statusCode < 300) {
+      return decodedBody;
+    } else {
+      throw Exception(
+        'Error ${response.statusCode}: ${decodedBody?['message'] ?? response.reasonPhrase}',
+      );
+    }
+  }
+}
+
+
