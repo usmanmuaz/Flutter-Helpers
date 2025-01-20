@@ -1,0 +1,45 @@
+// ===================== Flutter Version Manager (FVM) Setup =====================
+// Author: Usman Muaz
+
+// ===================== Step 1: Install FVM =====================
+
+// 1. Go to the official FVM website: https://fvm.app/
+// 2. Click "Get Started" and download the appropriate installer for your system.
+
+// 3. Run this command to activate FVM globally:
+dart pub global activate fvm
+
+// ===================== Step 2: List Available Flutter Versions =====================
+
+// Run this command to see the list of available Flutter versions:
+fvm releases
+
+// ===================== Step 3: Install a Flutter Version =====================
+
+// To download a specific stable Flutter version, use this command:
+fvm install version_name
+// Example:
+fvm install 3.24.5
+
+// ===================== Step 4: Set Flutter Version for a Specific Project =====================
+
+// Navigate to your project's folder and run this command to use a specific Flutter version:
+fvm use version_name
+// Example:
+fvm use 3.24.5
+
+// ===================== Notes =====================
+
+// - When you set up a specific Flutter version for a project, FVM creates a `.fvm` folder 
+//   inside the project directory. This folder contains the specified version's configuration.
+
+// - If you create a new project, it will use the Flutter version installed on your machine 
+//   unless you explicitly set a version using FVM.
+
+// ===================== Additional Commands =====================
+
+// To check the currently active version in your project:
+fvm flutter --version
+
+// To remove an installed version:
+fvm remove version_name
