@@ -1,0 +1,39 @@
+=========================================================================
+Usman Muaz
+Mobile App Engineer | Flutter Developer
+=========================================================================
+
+
+=========================================================================
+Issue: Gradle build failed to produce an .apk file
+=========================================================================
+
+
+=========================================================================
+Solution : In my case I have a Multi flavor app:
+
+Step 1 : In VSCode Project Create file like this ( .vscode/launch.json )
+
+Step 2 : Add these details
+
+{
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.1.0",
+    "configurations": [
+        {
+            "name": "PROJECT_NAME",
+            "program": "lib/main.dart",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--flavor",
+                "FLAVOR_NAME" // development , production, staging
+            ]
+        }
+    ]
+}
+
+
+Step 3 : flutter clean && flutter pub get && flutter run
+
+=========================================================================
