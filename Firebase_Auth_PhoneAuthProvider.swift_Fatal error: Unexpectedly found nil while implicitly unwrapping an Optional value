@@ -1,0 +1,19 @@
+Usman Muaz
+Mobile App Engineer | Flutter Developer
+Add these line in you info.plist file
+
+==========================================================================================================================
+<key>CFBundleURLTypes</key>
+    <array>
+      <dict>
+        <key>CFBundleTypeRole</key>
+        <string>Editor</string>
+        <key>CFBundleURLName</key>
+        <string>firebase auth</string>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>Add your Encoded App ID from the firebase ios settings</string>
+        </array>
+      </dict>
+    </array>
+==========================================================================================================================
