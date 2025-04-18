@@ -1,0 +1,5 @@
+1.9.2 has shipped with what we believe is a fix in CocoaPods/Core. Keep in mind that you might still have a corrupt cocoapods cache to which you should 
+
+pod cache clean --all and sudo rm -rf ~/.cocoapods/repos
+
+to be certain. This issue will remain closed.
