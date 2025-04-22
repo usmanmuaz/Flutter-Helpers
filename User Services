@@ -1,0 +1,36 @@
+import 'dart:convert';
+import 'dart:developer';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:.../core/utills/app_pref_keys.dart';
+import 'package:.../core/utills/global_contants.dart';
+import '../../features/Authentication/controller/auth_controller.dart';
+
+class UserServices {
+
+  // Store User
+  static storeUser(DocumentSnapshot<Map<String, dynamic>>? data) async {
+    log("[ Store User to Local Storage ]");
+    // log("[ ${AppPrefsKey.userData} : ${userDoc?.data()} ]");
+    final safeData = convertTimestamp(data!.data()!); // Convert Timestamps
+    await prefs!.setString(AppPrefsKey.userData, jsonEncode(safeData));
+  }
+
+  // Check User
+  static Future<bool> isUserLoggedIn() async {
+    if (prefs!.getString(AppPrefsKey.userData) != null) {
+      final userExistingData =
+          jsonDecode(prefs!.getString(AppPrefsKey.userData)!);
+      userDoc = await AuthController.getUserData(userExistingData['id']);
+      storeUser(userDoc);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  // Delete User Data From local Storage
+  static deleteUserData() {
+    log("[ Removing User Data from Local Storage ]");
+    prefs!.remove(AppPrefsKey.userData);
+  }
+}
