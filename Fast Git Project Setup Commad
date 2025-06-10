@@ -1,0 +1,14 @@
+USMAN MUAZ
+FLUTTER DEVELOPER
+____________________________________________
+
+Make Sure First your github account is proper logged In terminat or in GitHub Desktop
+Create New Repo
+
+then use this command 
+
+git init && git add . && git commit -m "Project Connected to GitHub" && git branch -M main && git remote add ${REPLACE THIS WITH YOUR REPO URL} && git push -u origin main
+
+
+
+____________________________________________
