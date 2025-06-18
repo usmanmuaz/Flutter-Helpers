@@ -1,0 +1,203 @@
+| USMAN MUAZ |
+| FLUTTER DEVELOPER |
+
+=================================
+RevenueCat Integration in Flutter 
+=================================
+
+0 - add purchases_flutter dependency in pubspec.yaml file
+
+===============================================================
+1 - Basic Configuration for Main.dart
+===============================================================
+
+  static const _url = "https://yourUrl.supabase.co";
+  static const _anonKey = "";
+  static const _revenueCatIosApiKey = 'appl_yourKey';
+  static const _revenueCatAndroidApiKey = 'goog_yourKey';
+  await Purchases.configure(
+        PurchasesConfiguration(
+          Platform.isIOS ? _revenueCatIosApiKey : _revenueCatAndroidApiKey,
+        ),
+      );
+
+===============================================================
+2 - When your login the user with Firebase / Supabase / or Api 
+    also login the user in RevenueCat with userId
+===============================================================
+
+    await Purchases.logIn("sub_${user.userId}")
+
+
+===============================================================
+3 - RevenueCat Services - Make Sure you connected your project
+    in RevenueCat & Also created subscriptions in AppStore &
+    Google Play Console 
+    Customise this according to your needs
+===============================================================
+
+import 'dart:convert';
+import 'dart:developer' as developer;
+import 'dart:io';
+import 'package:flutter/services.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+class RevenueCatServices {
+  // Entitlement IDs
+  static const String _revenueCatId = "";
+  static const String _monthlyPlanId = '';
+  static const String _yearlyPlanId = '';
+
+  // Check User Subscription
+  Future<EntitlementInfo?> checkUserSubscriptionFromStore(
+      {required String packageId}) async {
+    try {
+      // Fetch customer info
+      CustomerInfo customerInfo = await Purchases.getCustomerInfo();
+      print("checkUserSubscriptionFromStore : ${customerInfo.toJson()}");
+      // Check if the user has an active entitlement
+      var entitlementInfo = customerInfo.entitlements.all[packageId];
+      return entitlementInfo;
+    } catch (e) {
+      // Handle error
+      print("checkUserSubscriptionFromStore failed : $e");
+      return null;
+    }
+  }
+
+  // Fetch Package Details
+  Future<Package?> fetchPackageDetails({required bool isYearly}) async {
+    try {
+      final packageDetails = await Purchases.getOfferings();
+      Package? currentPackage = isYearly
+          ? packageDetails.current?.annual
+          : packageDetails.current?.monthly;
+      developer.log(
+          "fetchOfferings success : ${isYearly ? "Yearly : " : "Monthly : "} ${jsonEncode(currentPackage?.toJson())}");
+      print("fetchPackageDetails: $currentPackage");
+      return currentPackage;
+    } catch (e) {
+      // Handle error
+      developer.log("fetchOfferings failed : $e");
+      return null;
+    }
+  }
+
+  // Subscribe to Package
+  Future<bool> subscribeToPackage({required bool isYearly}) async {
+    # final subscriptionController = Get.put(SubscriptionController());  i handled subscription with Getx You can use yours
+    String productId = "";
+    try {
+      // Get StoreProduct details
+      # subscriptionController.isLoading(true);
+      Package? package = await fetchPackageDetails(isYearly: isYearly);
+      productId = package?.identifier == r"$rc_monthly"
+          ? _monthlyPlanId
+          : _yearlyPlanId;
+      if (package != null) {
+        // Initiate purchase
+        await Purchases.purchasePackage(package);
+        Future.delayed(const Duration(seconds: 2));
+        CustomerInfo customerInfo = await Purchases.getCustomerInfo();
+        // Check entitlement status
+        print("customerInfo :${customerInfo.entitlements.toJson()}");
+        bool isActive =
+            customerInfo.entitlements.all[productId]?.isActive ?? false;
+
+        // ================================================================
+        if (isActive && customerInfo.entitlements.all[productId] != null) {
+          // ================================================================
+          var entitlementInfo = customerInfo.entitlements.all[productId]!;
+          var today = DateTime.now();
+          DateTime expireAt;
+          if (UserServices.userSubscription != null) {
+            expireAt = package.packageType.name == "annual"
+                ? today.add(const Duration(days: 365 + 7))
+                : today.add(const Duration(days: 30 + 7));
+          } else {
+            expireAt = package.packageType.name == "annual"
+                ? today.add(const Duration(days: 365))
+                : today.add(const Duration(days: 30));
+          }
+          // ================================================================
+          var subscription = SubscriptionModel(
+              id: "sub_${UserServices.currentUser.userId}",
+              createdAt: DateTime.now().toLocal(),
+              expireAt: entitlementInfo.expirationDate != null
+                  ? DateTime.parse(entitlementInfo.expirationDate.toString())
+                      .toUtc()
+                      .toLocal()
+                  : expireAt.toLocal(),
+              userId: UserServices.currentUser.userId,
+              packageId: package.storeProduct.defaultOption?.productId ??
+                  package.storeProduct.identifier,
+              deviceInfo: Platform.isAndroid ? "android" : "iOS");
+          print(
+              "subscribeToPackage : success : $productId : ${package.identifier}");
+          if (UserServices.userSubscription != null) {
+            await subscriptionController.updateUserSubscription(subscription);
+          } else {
+            await subscriptionController.storeUserSubscription(
+                subscription: subscription);
+          }
+          subscriptionController.isLoading(false);
+          Get.offNamedUntil(AppRoutes.home, (route) => false);
+          ShowCustomSnackbar.showSnackbar(
+              type: SnackbarType.success,
+              message: "Subscription successful. Enjoy your benefits!");
+          return true;
+        } else {
+          print("subscribeToPackage : failed : $productId : $customerInfo");
+          subscriptionController.isLoading(false);
+          ShowCustomSnackbar.showSnackbar(
+              type: SnackbarType.error,
+              message: "Operation failed. Please try again.");
+          return false;
+        }
+      } else {
+        subscriptionController.isLoading(false);
+
+        ShowCustomSnackbar.showSnackbar(type: SnackbarType.error);
+
+        return false;
+      }
+    } on PurchasesError catch (e) {
+      developer
+          .log("🚫 Purchase failed: $productId : $productId :${e.message}");
+      subscriptionController.isLoading(false);
+
+      ShowCustomSnackbar.showSnackbar(
+          type: SnackbarType.error, message: e.message);
+      return false;
+    } on PlatformException catch (error) {
+      developer.log("🚫 Purchase failed: $productId : ${error.message}");
+      subscriptionController.isLoading(false);
+
+      ShowCustomSnackbar.showSnackbar(
+          type: SnackbarType.error, message: error.message);
+      return false;
+    }
+  }
+
+  // Cancel Subscription
+  Future<void> cancelSubscription() async {
+    var url = Platform.isAndroid
+        ? 'https://play.google.com/store/account/subscriptions'
+        : 'https://apps.apple.com/account/subscriptions';
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
