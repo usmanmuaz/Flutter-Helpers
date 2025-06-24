@@ -1,0 +1,14 @@
+| USMAN MUAZ
+| FLUTTER DEVERLOPER
+
+======================
+Issue :
+Linker command failed with exit code 1 (use -v to see invocation)
+======================
+
+
+1- Open Project in XCode 
+2- Go to Target Runner Build Setting
+3- Search Others linking 
+4- Remove linking to that which are casuing this issue ( in My case it was SQFLite - Toast )
+5- Issue Resolved
