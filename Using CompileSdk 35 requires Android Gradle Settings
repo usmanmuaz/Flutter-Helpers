@@ -1,0 +1,27 @@
+|| USMAN MUAZ
+|| SENIOR FLUTTER DEVELOPER
+
+===========================================================================
+Issue : Namespace Issues while Update Compile SDK to 35 
+===========================================================================
+
+STEP 1 - Go to build.gradle ( App Level ) and do this
+
+compileSdkVersion 35
+targetSdkVersion 35
+
+===================================================================================================
+
+STEP 2 - Go to settings.gradle plugins section & change ("com.android.application") version to this
+
+id "com.android.application" version "8.1.0" apply false
+
+===================================================================================================
+
+STEP 3 - Now go to gradle-wrapper.properties & Set distributionUrl to this
+
+distributionUrl=https\://services.gradle.org/distributions/gradle-8.2-all.zip
+
+
+======================================= ALL SET NOW ===============================================
+
