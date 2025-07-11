@@ -1,0 +1,17 @@
+|| USMAN MUAZ
+|| MOBILE APP ENGINEER 
+
+=====================================
+Step - 1 Add this in Settings.gradle
+=====================================
+include ":app", ":flutter_inappwebview_android"
+
+gradle.beforeProject { project ->
+    if (project.name == "flutter_inappwebview_android") {
+        project.afterEvaluate {
+            if (project.hasProperty("android")) {
+                project.android.buildTypes.release.minifyEnabled = false
+            }
+        }
+    }
+}
