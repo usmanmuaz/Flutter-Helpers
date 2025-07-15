@@ -1,0 +1,17 @@
+1- Create a backup ZIP of the ios folder (in case you want to keep something from it).
+
+2- Delete the following folders and files from your project:
+
+Runner.xcodeproj
+Runner.xcworkspace
+Pods/
+.symlinks/
+Flutter/ (inside the ios directory)
+
+3- Open the terminal in your project root and run
+
+flutter create .
+
+This command will regenerate all the deleted files and folders.
+
+4 - Now everything should work fine.
