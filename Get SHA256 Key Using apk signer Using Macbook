@@ -1,0 +1,5 @@
+1- Setup Flutter Release Build ( key.properties, upload-keystore.jks files )
+2- Create release APK Build 
+3- use this commant
+
+~/Library/Android/sdk/build-tools/34.0.0/apksigner verify --print-certs build/app/outputs/flutter-apk/app-release.apk
